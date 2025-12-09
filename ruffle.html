@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <title>Testing</title>
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+	<body>
+        <input type="file" id="fileselect" accept=".swf">
+        <div id="container"></div>
+        <script>
+            var fileinput = document.getElementById("fileselect");
+            window.RufflePlayer = window.RufflePlayer || {};
+            fileinput.addEventListener("change", (event) => {
+                const ruffle = window.RufflePlayer.newest();
+                const player = ruffle.createPlayer();
+                const container = document.getElementById("container");
+                container.appendChild(player);
+                player.ruffle().load({
+                    url: URL.createObjectURL(fileinput.files[0]),
+                    allowScriptAccess: true,
+                    openUrlMode: "confirm",
+                    letterbox: "on",
+                    frameRate: 60,
+                    quality: "low",
+                    maxExecutionDuration: 9999
+                });
+                fileinput.style.display = "none";
+                container.style.width = "100vw";
+                container.style.height = "100vh";
+                player.style.width = "100vw";
+                player.style.height = "100vh";
+                player.style.margin = "0";
+                player.style.padding = "0";
+            });
+        </script>
+        <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+    </body>
+</html>
